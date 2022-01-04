@@ -6,6 +6,10 @@ from sklearn.cluster import AgglomerativeClustering
 import random
 
 def load_data(path):
+	'''
+	读xxx2id
+	返回下标为id，值为xxx的数组
+	'''
 	data_raw = []
 	data = open(path, 'r')
 	num_data = int(data.readline().strip())
@@ -97,6 +101,7 @@ def A_hat_csr(hyperedges, num_ent, weight, normalize):
 
 	return A @ FDAT
 
+#---main function---
 random.seed(10000)
 
 parser = argparse.ArgumentParser()
@@ -137,6 +142,7 @@ A_hat_normalized = A_hat_normalized + A_hat_normalized.transpose()
 
 print("A_hat generated.")
 
+#改一下这句
 model = AgglomerativeClustering(n_clusters=int(density * num_ent), linkage="average", affinity="precomputed")
 model.fit(- A_hat_normalized)
 labels = model.labels_
@@ -152,7 +158,7 @@ fclust = open(path_save + 'labels_' + data + '_' + str(density) +'.txt', 'w')
 for i in range(num_ent):
 	fclust.write("%s\n" % labels[i])
 fclust.close()
-
+#构建超图
 train_meta = set()
 A_meta = dict()
 train_ent = set()
@@ -176,7 +182,7 @@ for (e1, e2, r) in train_meta:
 	prob = A_meta[(e1, e2, r)] / (clust_size[e1] * clust_size[e2])
 	if random.random() < prob:
 		train_filter.append((e1, e2, r))
-
+#---按格式输出文件---
 entity_meta = open(path_save + 'entity2id.txt', 'w')
 entity_meta.write("%s\n" % (num_clust))
 for i in range(num_clust):

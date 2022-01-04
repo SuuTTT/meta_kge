@@ -26,7 +26,7 @@ margin = args.margin
 
 path_meta = './result_square/' + density + '/' + data + '_meta/'
 path_data = "./benchmarks/" + data + '/'
-
+print(0)
 train_dataloader_meta = TrainDataLoader(
 	in_path = path_meta, 
 	nbatches = 100,
@@ -39,7 +39,7 @@ train_dataloader_meta = TrainDataLoader(
 )
 
 test_dataloader_meta = TestDataLoader(path_meta, "link", False)
-
+print(1)
 transe_meta = TransE(
 	ent_tot = train_dataloader_meta.get_ent_tot(),
 	rel_tot = train_dataloader_meta.get_rel_tot(),
@@ -47,7 +47,7 @@ transe_meta = TransE(
 	p_norm = 1,
 	norm_flag = True
 )
-
+print(2)
 model_meta = NegativeSampling(
 	model = transe_meta, 
 	loss = MarginLoss(margin = margin_meta),
