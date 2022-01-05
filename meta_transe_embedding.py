@@ -57,7 +57,7 @@ model_meta = NegativeSampling(
 trainer_meta = Trainer(model = model_meta, data_loader = train_dataloader_meta, train_times = 200, alpha = alpha_meta, use_gpu = True)
 trainer_meta.run()
 
-f = open('./result_square/' + density + '/' + data + '_meta/labels_' + data + '_' + density + '.txt', 'r')
+f = open('./result_square/' + density + '/' + data + '_meta_embedding/labels_' + data + '_' + density + '.txt', 'r')
 cluster = []
 for line in f.readlines():
 	cluster.append(int(line.strip()))
