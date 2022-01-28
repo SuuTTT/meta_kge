@@ -85,7 +85,7 @@ transe = TransE(
 	rel_tot = train_dataloader.get_rel_tot(),
 	ent_embeddings = torch.nn.Embedding.from_pretrained(ent_embeddings.detach().clone(), freeze = False),
 	rel_embeddings = torch.nn.Embedding.from_pretrained(rel_embeddings.weight.data.detach().clone(), freeze = False),
-	dim = 200,
+	dim = 100,
 	p_norm = 1,
 	norm_flag = True
 )
