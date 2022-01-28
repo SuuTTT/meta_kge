@@ -63,7 +63,7 @@ entity_embeddings = transe_origin.ent_embeddings.weight.data.cpu().numpy()
 relation_embeddings = transe_origin.rel_embeddings.weight.data.cpu().numpy()
 
 SAVE_PATH = './embedding/'+ data + '/'
-print(relation_embeddings)
+#print(relation_embeddings)
 f1 = open(SAVE_PATH+'entity_embeddings_origin', 'wb')
 f2 = open(SAVE_PATH+'relation_embeddings_origin', 'wb')
 pickle.dump(entity_embeddings, f1)

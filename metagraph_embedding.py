@@ -150,8 +150,8 @@ print("A_hat generated.")
 relation_embeddings = []
 entity_embeddings = []
 SAVE_PATH='./embedding/'
-f1 = open('./embedding/'+data+'/relation_embeddings_openke', 'rb')
-f2 = open('./embedding/'+data+'/entity_embeddings_openke', 'rb')
+f1 = open('./embedding/'+data+'/relation_embeddings_origin', 'rb')
+f2 = open('./embedding/'+data+'/entity_embeddings_origin', 'rb')
 relation_embeddings = pickle.load(f1)
 entity_embeddings = pickle.load(f2)
 print(relation_embeddings.shape, entity_embeddings.shape)
@@ -161,7 +161,8 @@ model = AgglomerativeClustering(n_clusters=int(density * num_ent), linkage="aver
 model.fit(- A_hat_normalized)
 labels = model.labels_
 '''
-kmeans = KMeans(n_clusters=int(density * num_ent), random_state=0).fit(entity_embeddings)
+#加速 n_init
+kmeans = KMeans(n_clusters=int(density * num_ent), random_state=0,n_init=1,n_jobs=8).fit(entity_embeddings)
 labels = kmeans.labels_
 print("Clustering done.")
 
