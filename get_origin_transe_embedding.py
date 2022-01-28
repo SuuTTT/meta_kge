@@ -54,7 +54,7 @@ model_origin = NegativeSampling(
 	batch_size = train_dataloader_origin.get_batch_size()
 )
 
-trainer_origin = Trainer(model = model_origin, data_loader = train_dataloader_origin, train_times = 200, alpha = alpha_meta, use_gpu = True)
+trainer_origin = Trainer(model = model_origin, data_loader = train_dataloader_origin, train_times = 500, alpha = alpha_meta, use_gpu = True)
 trainer_origin.run()
 
 # save imbedding
