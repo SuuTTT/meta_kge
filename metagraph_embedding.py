@@ -116,7 +116,7 @@ data = args.data
 density = float(args.density)
 
 path_data = './benchmarks/' + data + '/'
-path_save = './result_square/' + str(density) + '/' + data + '_metad_embedding/'
+path_save = './result_square/' + str(density) + '/' + data + '_meta_embedding/'
 
 if not os.path.exists(path_save):
 	os.makedirs(path_save)
