@@ -162,7 +162,7 @@ model.fit(- A_hat_normalized)
 labels = model.labels_
 '''
 #加速 n_init
-kmeans = KMeans(n_clusters=int(density * num_ent), random_state=0,n_init=1,n_jobs=8).fit(entity_embeddings)
+kmeans = KMeans(n_clusters=int(density * num_ent), random_state=0,n_init=1).fit(entity_embeddings)
 labels = kmeans.labels_
 print("Clustering done.")
 
