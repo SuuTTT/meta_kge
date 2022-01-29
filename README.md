@@ -24,6 +24,7 @@ To generate a metagraph, use `metagraph.py`.
 
 ```
 python3 metagraph.py [data] [density]
+
 ```
 - `[data]`: name of the dataset. The name should be the directory name of the dataset contained in the `./benchmarks` folder.
 - `[density]`: size of the metagraph.
@@ -42,6 +43,10 @@ For `DistMult`, use
 
 ```
 CUDA_VISIBLE_DEVICES=0 python3 meta_distmult.py [data] [density] [alpha_meta] [regul_meta] [alpha] [regul]
+CUDA_VISIBLE_DEVICES=0 python3 meta_distmult.py FB15K 0.7 0.01 0.1 0.1 0.1
+CUDA_VISIBLE_DEVICES=0 python3 meta_distmult.py NELL-995 0.85 0.1 0.1 0.1 0.1
+
+
 ```
 
 For `RotatE`, use
