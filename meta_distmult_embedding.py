@@ -53,23 +53,49 @@ model_meta = NegativeSampling(
 	regul_rate = regul_meta
 )
 
-trainer_meta = Trainer(model = model_meta, data_loader = train_dataloader_meta, train_times = 500, alpha = alpha_meta, use_gpu = True, opt_method = "adagrad")
+trainer_meta = Trainer(model = model_meta, data_loader = train_dataloader_meta, train_times = 200, alpha = alpha_meta, use_gpu = True, opt_method = "adagrad")
 trainer_meta.run()
 
+f = open('./result_square/' + density + '/' + data + '_meta_embedding/labels_' + data + '_' + density + '.txt', 'r')
+cluster = []
+for line in f.readlines():
+	cluster.append(int(line.strip()))
+f.close()
 
-# save imbedding
-import pickle
-entity_embeddings = distmult_meta.ent_embeddings.weight.data.cpu().numpy()
-relation_embeddings = distmult_meta.rel_embeddings.weight.data.cpu().numpy()
+a = torch.tensor(cluster, device = 'cuda:0')
+ent_embeddings = distmult_meta.ent_embeddings(a)
+rel_embeddings = distmult_meta.rel_embeddings
 
-SAVE_PATH = './embedding/'+ data + '/'
-#print(relation_embeddings)
-f1 = open(SAVE_PATH+'entity_embeddings_origin', 'wb')
-f2 = open(SAVE_PATH+'relation_embeddings_origin', 'wb')
-pickle.dump(entity_embeddings, f1)
-pickle.dump(relation_embeddings, f2)
-f1.close()
-f2.close()
+train_dataloader = TrainDataLoader(
+	in_path = path_data, 
+	nbatches = 100,
+	threads = 8, 
+	sampling_mode = "normal", 
+	bern_flag = 1, 
+	filter_flag = 1, 
+	neg_ent = 25,
+	neg_rel = 0
+)
 
-tester = Tester(model = distmult_meta, data_loader = test_dataloader_meta, use_gpu = True)
+test_dataloader = TestDataLoader(path_data, "link", False)
+
+distmult = DistMult(
+	ent_tot = train_dataloader.get_ent_tot(),
+	rel_tot = train_dataloader.get_rel_tot(),
+	ent_embeddings = torch.nn.Embedding.from_pretrained(ent_embeddings.detach().clone(), freeze = False),
+	rel_embeddings = torch.nn.Embedding.from_pretrained(rel_embeddings.weight.data.detach().clone(), freeze = False),
+	dim = 200
+)
+
+model = NegativeSampling(
+	model = distmult, 
+	loss = SoftplusLoss(),
+	batch_size = train_dataloader.get_batch_size(), 
+	regul_rate = regul_rate
+)
+
+trainer = Trainer(model = model, data_loader = train_dataloader, train_times = 500, alpha = alpha, use_gpu = True, opt_method = "adagrad")
+trainer.run()
+
+tester = Tester(model = distmult, data_loader = test_dataloader, use_gpu = True)
 tester.run_link_prediction(type_constrain = False)
