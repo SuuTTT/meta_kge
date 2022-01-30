@@ -53,4 +53,5 @@ For `RotatE`, use
 
 ```
 CUDA_VISIBLE_DEVICES=0 python3 meta_rotate.py [data] [density] [alpha_meta] [margin_meta] [adv_meta] [alpha] [margin] [adv]
+CUDA_VISIBLE_DEVICES=0 python3 meta_rotate.py FB15K 0.7 5e-5 12 1 1e-4 9 0.5
 ```
