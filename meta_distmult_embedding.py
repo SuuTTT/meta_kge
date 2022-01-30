@@ -24,10 +24,10 @@ regul_meta = args.regul_meta
 alpha = args.alpha
 regul_rate = args.regul
 
-#path_meta = './result_square/' + density + '/' + data + '_meta/'
+path_meta = './result_square/' + density + '/' + data + '_meta/'
 
 path_data = "./benchmarks/" + data + '/'
-path_meta=path_data
+
 train_dataloader_meta = TrainDataLoader(
 	in_path = path_meta, 
 	nbatches = 100,
